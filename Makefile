@@ -1,19 +1,5 @@
 NAME=racer
+PLATFORMS=linux macosx mingw
 
-.PHONY: $(NAME)
-
-linux:
-	make $(NAME) PLATFORM=linux
-
-macosx:
-	make $(NAME) PLATFORM=macosx
-
-mingw:
-	make $(NAME) PLATFORM=mingw
-
-$(NAME):
-	make -C dokidoki-support $(PLATFORM) NAME="../$(NAME)"
-
-clean:
-	make -C dokidoki-support clean NAME="../$(NAME)"
-
+$(PLATFORMS) clean:
+	make -C dokidoki-support $@ NAME="../$(NAME)"
