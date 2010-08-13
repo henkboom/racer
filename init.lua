@@ -4,6 +4,8 @@ local kernel = require 'dokidoki.kernel'
 local game = require 'dokidoki.game'
 local v2 = require 'dokidoki.v2'
 
+kernel.set_ratio(16/9)
+
 kernel.start_main_loop(game.make_game(
   {'update_setup', 'update', 'collision_check', 'update_cleanup'},
   {'draw_setup', 'draw_terrain', 'draw', '_draw_debug', 'draw_minimap_setup',

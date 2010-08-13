@@ -9,7 +9,7 @@ game.actors.new_generic("opengl", function ()
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
     gl.glMatrixMode(gl.GL_PROJECTION)
     gl.glLoadIdentity()
-    glu.gluPerspective(100, 4/3, 1, 10000)
+    glu.gluPerspective(100, 16/9, 1, 10000)
     gl.glMatrixMode(gl.GL_MODELVIEW)
     gl.glLoadIdentity()
   end
