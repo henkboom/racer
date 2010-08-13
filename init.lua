@@ -10,6 +10,7 @@ kernel.start_main_loop(game.make_game(
    'draw_minimap_terrain', 'draw_minimap'},
   function (game)
     game.init_component('exit_handler')
+    game.exit_handler.trap_esc = true
     game.init_component('keyboard')
 
     game.init_component('blueprints')
