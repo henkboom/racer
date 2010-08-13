@@ -22,7 +22,7 @@ end
 local function damp_v2(vect, scalar, multiplier)
   local mag = v2.mag(vect)
   if mag > 0 then
-    return vect * damp(v2.mag(vect), scalar, multiplier) / mag
+    return vect * damp(mag, scalar, multiplier) / mag
   else
     return vect
   end
