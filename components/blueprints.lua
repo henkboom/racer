@@ -1,5 +1,4 @@
 local collision = require 'dokidoki.collision'
-local game = require 'dokidoki.game'
 local v2 = require 'dokidoki.v2'
 
 player_ship = game.make_blueprint('player_ship',
