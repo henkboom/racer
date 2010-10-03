@@ -1,0 +1,13 @@
+PROJECT_NAME := dokidoki-template
+
+LIBRARIES += \
+    dokidoki
+
+LUA_SRC += \
+    init.lua
+
+C_SRC +=
+
+LUA_NATIVE_MODULES +=
+
+RESOURCES +=
