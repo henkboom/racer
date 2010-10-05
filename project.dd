@@ -1,0 +1,34 @@
+PROJECT_NAME := racer
+
+LIBRARIES += \
+    dokidoki
+
+LUA_SRC += \
+	components/blueprints.lua \
+	components/camera.lua \
+	components/collision.lua \
+	components/level.lua \
+	components/opengl.lua \
+	components/resources.lua \
+	scripts/collider.lua \
+	scripts/mesh_renderer.lua \
+	scripts/player_ship_control.lua \
+	scripts/ship.lua \
+	scripts/terrain_debug_renderer.lua \
+	init.lua \
+	level_data.lua \
+	main.lua \
+	obj.lua \
+	track_segment.lua
+
+C_SRC +=
+
+LUA_NATIVE_MODULES +=
+
+RESOURCES += \
+	sprites/ship.png \
+	sprites/terrain.png
+
+# export tracks
+%.obj: %.blend
+	blender $^ -P export_track.py -- $@
