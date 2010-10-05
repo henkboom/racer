@@ -1,0 +1,14 @@
+import sys
+import bpy
+
+i = 1
+while i < len(sys.argv) and sys.argv[i] != "--":
+    i = i + 1
+args = sys.argv[i+1:]
+
+bpy.ops.export_scene.obj(
+    filepath=args[0],
+    use_rotate_x90=False,
+    use_materials=False)
+
+bpy.ops.wm.exit_blender()

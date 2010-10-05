@@ -15,9 +15,9 @@ kernel.start_main_loop(game.make_game(
     game.exit_handler.trap_esc = true
     game.init_component('keyboard')
 
+    game.init_component('resources')
     game.init_component('blueprints')
     game.init_component('opengl')
-    game.init_component('resources')
     game.init_component('camera')
     game.init_component('collision')
     game.init_component('level')
@@ -26,6 +26,8 @@ kernel.start_main_loop(game.make_game(
     game.actors.new(game.blueprints.terrain)
     local player = game.actors.new(game.blueprints.player_ship,
       {'transform', pos=v2(100, 100)})
+
+    game.actors.new(game.blueprints.track)
 
     game.camera.set_target(player)
   end))

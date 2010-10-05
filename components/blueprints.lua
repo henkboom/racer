@@ -15,3 +15,7 @@ terrain = game.make_blueprint('terrain',
 obstacle = game.make_blueprint('obstacle',
   {'transform'},
   {'collider', class='obstacle'})
+
+track = game.make_blueprint('track',
+  {'transform', scale_x=640, scale_y=640, scale_z=640},
+  {'terrain_debug_renderer', mesh = game.resources.track_mesh})
