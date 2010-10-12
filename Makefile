@@ -1,9 +1,6 @@
 # set the default rule
 build:
 
-# just some constants
-PLATFORMS := linux macosx mingw
-
 # OS detection, cut at 7 chars for mingw
 UNAME := $(shell uname | cut -c 1-7)
 ifeq ($(UNAME), Linux)
