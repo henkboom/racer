@@ -43,7 +43,7 @@ RESOURCE_TARGETS=$(RESOURCES:%=$(TARGET_DIR)/%)
 build: $(TARGET_EXE) resources $(LIBRARY_RESOURCES)
 resources: $(LUA_TARGETS) $(RESOURCE_TARGETS)
 
-$(TARGET_EXE): $(OBJS) $(LIBRARY_LIBS)
+$(TARGET_EXE): $(OBJS)
 	@echo linking $@...
 	@mkdir -p `dirname $@`
 	@gcc -o $@ $^ $(LDFLAGS) $($(PLATFORM_PREFIX)_LDFLAGS)
@@ -64,6 +64,5 @@ $(RESOURCE_TARGETS) $(LUA_TARGETS): $(TARGET_DIR)/%: %
 clean:
 	rm -f $(OBJS) $(DEPS)
 	rm -rf $(TARGET_DIR)
-	mkdir -p $(TARGET_DIR)
 
 -include $(DEPS)
