@@ -11,4 +11,4 @@ bpy.ops.export_scene.obj(
     use_rotate_x90=False,
     use_materials=False)
 
-bpy.ops.wm.exit_blender()
+bpy.ops.wm.quit_blender()

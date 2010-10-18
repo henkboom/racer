@@ -34,18 +34,18 @@ function update()
   self.transform.facing =
     v2.norm(v2.rotate(self.transform.facing, buffered_turn / 10))
 
-  local current_accel = buffered_accel * 0.02
-  if boost then current_accel = current_accel + 0.02 end
+  local current_accel = buffered_accel * 0.005
+  if boost then current_accel = current_accel + 0.005 end
 
   -- acceleration
   vel = vel + self.transform.facing * current_accel
   -- general damping
-  vel = damp_v2(vel, 0.005, 0.995)
+  vel = damp_v2(vel, 0.001, 0.995)
   -- braking damping
   if brake then
     vel =
       v2.project(vel, self.transform.facing)  * 0.99 +
-      damp_v2(v2.project(vel, v2.rotate90(self.transform.facing)), 0.005, 0.97)
+      damp_v2(v2.project(vel, v2.rotate90(self.transform.facing)), 0.001, 0.97)
   end
 
   self.transform.pos = self.transform.pos + vel

@@ -4,26 +4,34 @@ assert(mesh, 'missing mesh argument')
 color = color or false
 
 function draw()
-  self.transform.pos = game.actors.get('player_ship')[1].transform.pos
   -- TODO: do these transforms directly, much faster!
   gl.glPushMatrix()
   gl.glTranslated(self.transform.pos.x, self.transform.pos.y, 0)
   -- slooooow and stupid rotation:
   local f = self.transform.facing
   gl.glRotated(180/math.pi * math.atan2(f.y, f.x), 0, 0, 1)
-  gl.glScaled(self.transform.scale_x, self.transform.scale_y, self.transform.scale_z)
-
-  if color then gl.glColor4d(color[1], color[2], color[3], color[4] or 1) end
 
   for _, face in ipairs(mesh) do
-    gl.glBegin(gl.GL_LINE_LOOP)
+    local color = 0.5
+    gl.glBegin(gl.GL_POLYGON)
     for _, vertex in ipairs(face.vertices) do
-      gl.glVertex3d(vertex[1], vertex[3], vertex[2])
+      gl.glColor3d(color, color, color)
+      gl.glVertex3d(vertex.pos[1], vertex.pos[2], vertex.pos[3])
+      color = color * 0.8
     end
+    gl.glEnd()
+
+    -- draw normal
+    gl.glColor3d(1, 0, 1)
+    gl.glBegin(gl.GL_LINES)
+    local from = (face.vertices[1].pos + face.vertices[3].pos) / 2
+    local to = from + face.normal
+    gl.glVertex3d(from[1], from[2], from[3])
+    gl.glVertex3d(to[1], to[2], to[3])
     gl.glEnd()
   end
 
-  if color then gl.glColor3d(1, 1, 1) end
+  gl.glColor3d(1, 1, 1)
 
   gl.glPopMatrix()
 end

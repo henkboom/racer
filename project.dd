@@ -10,6 +10,11 @@ LUA_SRC += \
 	components/level.lua \
 	components/opengl.lua \
 	components/resources.lua \
+	geom/face.lua \
+	geom/init.lua \
+	geom/mesh.lua \
+	geom/vect.lua \
+	geom/vertex.lua \
 	scripts/collider.lua \
 	scripts/mesh_renderer.lua \
 	scripts/player_ship_control.lua \
@@ -27,7 +32,8 @@ LUA_NATIVE_MODULES +=
 
 RESOURCES += \
 	sprites/ship.png \
-	sprites/terrain.png
+	sprites/terrain.png \
+	tracks/track.obj
 
 # export tracks
 %.obj: %.blend
