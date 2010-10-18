@@ -16,7 +16,7 @@ game.actors.new_generic("opengl", function ()
 
     gl.glMatrixMode(gl.GL_PROJECTION)
     gl.glLoadIdentity()
-    glu.gluPerspective(100, 16/9, 1, 10000)
+    glu.gluPerspective(70, 16/9, 1, 10000)
     gl.glMatrixMode(gl.GL_MODELVIEW)
     gl.glLoadIdentity()
   end

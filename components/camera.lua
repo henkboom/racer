@@ -47,9 +47,9 @@ game.actors.new_generic('camera', function ()
   end
   function draw_setup()
     if pos then
-      local source = pos - vel * 3
-      local subject = pos + vel * 6
-      local height = math.max(10 - v2.mag(vel), 1)
+      local source = pos - vel * 6
+      local subject = pos + vel * 12
+      local height = math.max(15 - v2.mag(vel)*8, 2)
 
       glu.gluLookAt(source.x, source.y, height,
                     subject.x, subject.y, 0,
