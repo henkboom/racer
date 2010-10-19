@@ -1,4 +1,5 @@
 local v2 = require 'dokidoki.v2'
+local vect = require 'geom.vect'
 
 self.tags.ship = true
 
@@ -25,6 +26,32 @@ local function damp_v2(vect, scalar, multiplier)
     return vect * damp(mag, scalar, multiplier) / mag
   else
     return vect
+  end
+end
+
+
+function draw_debug()
+  local gl = require 'gl'
+  local ground_pos, ground_normal = game.track.trace_gravity_ray(
+    vect(self.transform.pos.x, self.transform.pos.y, 0), vect(0, 0, -1))
+  if ground_pos then
+    --gl.glDepthFunc(gl.GL_ALWAYS)
+
+    gl.glBegin(gl.GL_LINES)
+    gl.glColor3d(0, 1, 0)
+    gl.glVertex3d(self.transform.pos.x, self.transform.pos.y, 0)
+    gl.glColor3d(1, 1, 1)
+    gl.glVertex3d(ground_pos[1], ground_pos[2], ground_pos[3])
+    gl.glEnd()
+    gl.glPointSize(10)
+
+    gl.glBegin(gl.GL_POINTS)
+    gl.glColor3d(1, 0, 0)
+    gl.glVertex3d(ground_pos[1], ground_pos[2], ground_pos[3])
+    gl.glEnd()
+    gl.glColor3d(1, 1, 1)
+
+    --gl.glDepthFunc(gl.GL_LESS)
   end
 end
 

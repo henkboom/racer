@@ -1,5 +1,5 @@
-local function make(vertices, faces)
-  return {vertices=vertices, faces=faces}
+local function make(faces)
+  return {faces=faces}
 end
 
 return make

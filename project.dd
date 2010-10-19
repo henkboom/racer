@@ -10,6 +10,7 @@ LUA_SRC += \
 	components/level.lua \
 	components/opengl.lua \
 	components/resources.lua \
+	components/track.lua \
 	geom/face.lua \
 	geom/init.lua \
 	geom/mesh.lua \

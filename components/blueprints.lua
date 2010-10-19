@@ -1,5 +1,4 @@
 local collision = require 'dokidoki.collision'
-local obj = require 'obj'
 local v2 = require 'dokidoki.v2'
 
 player_ship = game.make_blueprint('player_ship',
@@ -19,4 +18,4 @@ obstacle = game.make_blueprint('obstacle',
 
 track = game.make_blueprint('track',
   {'transform'},
-  {'mesh_renderer', mesh=obj.parse('tracks/track.obj')})
+  {'mesh_renderer'})

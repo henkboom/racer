@@ -11,7 +11,7 @@ function draw()
   local f = self.transform.facing
   gl.glRotated(180/math.pi * math.atan2(f.y, f.x), 0, 0, 1)
 
-  for _, face in ipairs(mesh) do
+  for _, face in ipairs(mesh.faces) do
     local color = 0.5
     gl.glBegin(gl.GL_POLYGON)
     for _, vertex in ipairs(face.vertices) do
