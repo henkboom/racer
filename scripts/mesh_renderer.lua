@@ -6,10 +6,10 @@ color = color or false
 function draw()
   -- TODO: do these transforms directly, much faster!
   gl.glPushMatrix()
-  gl.glTranslated(self.transform.pos.x, self.transform.pos.y, 0)
+  gl.glTranslated(self.transform.pos[1], self.transform.pos[2], 0)
   -- slooooow and stupid rotation:
   local f = self.transform.facing
-  gl.glRotated(180/math.pi * math.atan2(f.y, f.x), 0, 0, 1)
+  gl.glRotated(180/math.pi * math.atan2(f[2], f[1]), 0, 0, 1)
 
   for _, face in ipairs(mesh.faces) do
     local color = 0.5

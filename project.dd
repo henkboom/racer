@@ -1,7 +1,7 @@
 PROJECT_NAME := racer
 
 LIBRARIES += \
-    dokidoki
+	dokidoki
 
 LUA_SRC += \
 	components/blueprints.lua \
@@ -20,7 +20,9 @@ LUA_SRC += \
 	scripts/mesh_renderer.lua \
 	scripts/player_ship_control.lua \
 	scripts/ship.lua \
+	scripts/sprite.lua \
 	scripts/terrain_debug_renderer.lua \
+	scripts/transform.lua \
 	init.lua \
 	level_data.lua \
 	main.lua \
@@ -37,5 +39,5 @@ RESOURCES += \
 	tracks/track.obj
 
 # export tracks
-%.obj: %.blend
+%.obj: %.blend export_track.py
 	blender $^ -P export_track.py -- $@

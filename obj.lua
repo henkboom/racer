@@ -1,4 +1,5 @@
-geom = require 'geom'
+local geom = require 'geom'
+local vect = geom.vect
 
 local function tokenize(str, token_pattern)
   local tokens = {}
@@ -14,9 +15,8 @@ local function parse(filename)
 
   local vertices = {}
   local texture_vertices = {}
+  local vertex_normals = {}
   local faces = {}
-
-  local default_texture_vertex = {0, 0}
 
   for line in file:lines() do
     -- tokenize
@@ -24,29 +24,32 @@ local function parse(filename)
     --print(line)
     
     if tokens[1] == 'v' then
-      table.insert(vertices, geom.vertex(
-        geom.vect(
-          tonumber(tokens[2]),
-          tonumber(tokens[3]),
-          tonumber(tokens[4])),
-        nil)) -- no vertex normals for now
-    elseif tokens[1] == 'vt' then
-      table.insert(texture_vertices, {
+      table.insert(vertices, vect(
         tonumber(tokens[2]),
-        tonumber(tokens[3])
-      })
+        tonumber(tokens[3]),
+        tonumber(tokens[4])))
+    elseif tokens[1] == 'vt' then
+      table.insert(texture_vertices, vect(
+        tonumber(tokens[2]),
+        tonumber(tokens[3]),
+        tonumber(tokens[4] or 0)))
+    elseif tokens[1] == 'vn' then
+      table.insert(vertices, vect.norm(vect(
+        tonumber(tokens[2]),
+        tonumber(tokens[3]),
+        tonumber(tokens[4]))))
     elseif tokens[1] == 'f' then
       local face_vertices = {}
       --local face_texture_vertices = {}
 
       for i = 2, #tokens do
         local fields = tokenize(tokens[i], '[^/]+')
-        table.insert(
-          face_vertices,
-          vertices[tonumber(fields[1])])
-        --table.insert(
-        --  face_texture_vertices,
-        --  texture_vertices[tonumber(fields[2])] or default_texture_vertex)
+        local vertex_index = tonumber(fields[1])
+        local texcoord_index = tonumber(fields[2])
+        local normal_index = tonumber(fields[3])
+        table.insert(face_vertices, geom.vertex(
+          vertices[tonumber(fields[1])],
+          normal_index and vertex_normals[normal_index] or nil))
       end
 
       table.insert(faces, geom.face(face_vertices))

@@ -4,7 +4,6 @@ require 'dokidoki.module' [[]]
 
 local kernel = require 'dokidoki.kernel'
 local game = require 'dokidoki.game'
-local v2 = require 'dokidoki.v2'
 
 local geom = require 'geom'
 local obj = require 'obj'
@@ -27,8 +26,7 @@ kernel.start_main_loop(game.make_game(
     game.init_component('collision')
     game.init_component('track')
 
-    local player = game.actors.new(game.blueprints.player_ship,
-      {'transform', pos=v2(0, 0)})
+    local player = game.actors.new(game.blueprints.player_ship)
 
     game.track.load(geom.mesh(obj.parse('tracks/track.obj')))
 

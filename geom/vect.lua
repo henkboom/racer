@@ -1,6 +1,6 @@
 require "dokidoki.module"
 [[ make,
-   add, sub, neg, mul, div, dot, cross, project,
+   add, sub, neg, mul, div, dot, cross, rotate, project,
    mag, sqrmag, norm, eq, coords,
    zero, i, j ]]
 
@@ -26,6 +26,24 @@ function cross (a, b)
     a[2]*b[3]-a[3]*b[2],
     a[3]*b[1]-a[1]*b[3],
     a[1]*b[2]-a[2]*b[1])
+end
+
+function rotate(v, axis, angle)
+  local q0 = math.cos(angle/2)
+  local s = math.sin(angle/2)
+  local q1 = s * axis[1]
+  local q2 = s * axis[2]
+  local q3 = s * axis[3]
+  return make(
+    ((q0*q0 + q1*q1 - q2*q2 - q3*q3) * v[1] +
+     2*(q1*q2 - q0*q3) * v[2] +
+     2*(q1*q3 + q0*q2) * v[3]),
+    (2*(q2*q1 + q0*q3) * v[1] +
+     (q0*q0 - q1*q1 + q2*q2 - q3*q3) * v[2] +
+     2*(q2*q3 - q0*q1) * v[3]),
+    (2*(q3*q1 - q0*q2) * v[1] +
+     2*(q3*q2 + q0*q1) * v[2] +
+     (q0*q0 - q1*q1 - q2*q2 + q3*q3) * v[3]))
 end
 
 mt =

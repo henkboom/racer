@@ -1,5 +1,5 @@
 local glu = require 'glu'
-local v2 = require 'dokidoki.v2'
+local vect = require 'geom.vect'
 
 local target
 local pos
@@ -7,14 +7,14 @@ local vel
 local up
 
 local function is_small(v)
-  return v2.sqrmag(v) <= 0.00001
+  return vect.sqrmag(v) <= 0.00001
 end
 
 function set_target(new_target)
   target = new_target
   if target then
     pos = target.transform.pos
-    vel = v2(0, 0)
+    vel = vect(0, 0, 0)
     up = target.transform.facing
   end
 end
@@ -34,13 +34,13 @@ game.actors.new_generic('camera', function ()
       pos = new_pos
 
       if not is_small(vel) then
-        local new_up = up + 0.05 * v2.norm(vel)
+        local new_up = up + 0.05 * vect.norm(vel)
         if is_small(new_up) then
-          new_up = v2.norm(vel)
+          new_up = vect.norm(vel)
         end
 
         if not is_small(new_up) then
-          up = v2.norm(new_up)
+          up = vect.norm(new_up)
         end
       end
     end
@@ -49,11 +49,11 @@ game.actors.new_generic('camera', function ()
     if pos then
       local source = pos - vel * 6
       local subject = pos + vel * 12
-      local height = math.max(15 - v2.mag(vel)*8, 2)
+      local height = math.max(15 - vect.mag(vel)*8, 2)
 
-      glu.gluLookAt(source.x, source.y, height,
-                    subject.x, subject.y, 0,
-                    up.x, up.y, 0)
+      glu.gluLookAt(source[1], source[2], height,
+                    subject[1], subject[2], 0,
+                    up[1], up[2], 0)
     end
   end
 end)
