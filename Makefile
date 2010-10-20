@@ -56,7 +56,14 @@ $(TARGET_EXE): $(OBJS)
 	     -e '/^$$/ d' -e 's/$$/ :/' < $*.d >> $*.P
 	@rm -f $*.d
 
-$(RESOURCE_TARGETS) $(LUA_TARGETS): $(TARGET_DIR)/%: %
+$(RESOURCE_TARGETS): $(TARGET_DIR)/%: %
+	@echo copying $@...
+	@mkdir -p `dirname $@`
+	@cp $^ $@
+
+$(LUA_TARGETS): $(TARGET_DIR)/%: %
+	@echo verifying $@...
+	@luac -p $^
 	@echo copying $@...
 	@mkdir -p `dirname $@`
 	@cp $^ $@
