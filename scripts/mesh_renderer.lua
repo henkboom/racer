@@ -11,7 +11,10 @@ function draw()
   local f = self.transform.facing
   gl.glRotated(180/math.pi * math.atan2(f[2], f[1]), 0, 0, 1)
 
-  for _, face in ipairs(mesh.faces) do
+  local faces = mesh.faces
+  for i = 1, #mesh.faces do
+    local face = faces[i]
+
     local color = 0.5
     gl.glBegin(gl.GL_POLYGON)
     for _, vertex in ipairs(face.vertices) do
@@ -28,6 +31,18 @@ function draw()
     local to = from + face.normal
     gl.glVertex3d(from[1], from[2], from[3])
     gl.glVertex3d(to[1], to[2], to[3])
+    gl.glEnd()
+
+    -- draw vertex normals
+    gl.glColor3d(1, 0, 1)
+    gl.glBegin(gl.GL_LINES)
+    for i = 1, #face.vertices do
+      local vertex = face.vertices[i]
+      local from = vertex.pos
+      local to = from + vertex.normal
+      gl.glVertex3d(from[1], from[2], from[3])
+      gl.glVertex3d(to[1], to[2], to[3])
+    end
     gl.glEnd()
   end
 

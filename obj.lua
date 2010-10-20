@@ -34,7 +34,7 @@ local function parse(filename)
         tonumber(tokens[3]),
         tonumber(tokens[4] or 0)))
     elseif tokens[1] == 'vn' then
-      table.insert(vertices, vect.norm(vect(
+      table.insert(vertex_normals, vect.norm(vect(
         tonumber(tokens[2]),
         tonumber(tokens[3]),
         tonumber(tokens[4]))))
@@ -43,7 +43,7 @@ local function parse(filename)
       --local face_texture_vertices = {}
 
       for i = 2, #tokens do
-        local fields = tokenize(tokens[i], '[^/]+')
+        local fields = tokenize(tokens[i], '([^/]*)/?')
         local vertex_index = tonumber(fields[1])
         local texcoord_index = tonumber(fields[2])
         local normal_index = tonumber(fields[3])
