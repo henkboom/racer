@@ -15,12 +15,12 @@ function draw()
   for i = 1, #mesh.faces do
     local face = faces[i]
 
-    local color = 0.5
-    gl.glBegin(gl.GL_POLYGON)
+    local color = 1
+    gl.glBegin(gl.GL_TRIANGLE_FAN)
     for _, vertex in ipairs(face.vertices) do
       gl.glColor3d(color, color, color)
       gl.glVertex3d(vertex.pos[1], vertex.pos[2], vertex.pos[3])
-      color = color * 0.8
+      color = color * 0.7
     end
     gl.glEnd()
 
@@ -34,7 +34,6 @@ function draw()
     gl.glEnd()
 
     -- draw vertex normals
-    gl.glColor3d(1, 0, 1)
     gl.glBegin(gl.GL_LINES)
     for i = 1, #face.vertices do
       local vertex = face.vertices[i]

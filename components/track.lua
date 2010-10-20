@@ -16,7 +16,7 @@ function trace_gravity_ray(ray_origin, ray_direction)
   for i = 1, #faces do
     face, pos, normal = faces[i]:intersect_ray(ray_origin, ray_direction)
     if face then
-      return pos, normal
+      return pos, face:interpolate_normal(pos)
     end
   end
 end

@@ -96,7 +96,7 @@ function update()
   if ground_pos then
     local axis = vect.cross(self.transform.up, ground_normal)
     if vect.sqrmag(axis) ~= 0 then
-      self.transform.rotate(vect.norm(axis), math.pi/32)
+      self.transform.rotate(vect.norm(axis), math.pi/64)
     end
     self.transform.pos = ground_pos + ground_normal * 0.3
   end

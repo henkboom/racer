@@ -45,6 +45,53 @@ function mt.intersect_ray(face, ray_origin, ray_direction)
   return face, plane_hit, face.normal
 end
 
+local function to_barycentric_2d(v1, v2, v3, p)
+  local a = ((v2[2]-v3[2])*(p[1]-v3[1]) + (v3[1]-v2[1])*(p[2]-v3[2])) /
+            ((v2[2]-v3[2])*(v1[1]-v3[1]) + (v3[1]-v2[1])*(v1[2]-v3[2]))
+  local b = ((v3[2]-v1[2])*(p[1]-v3[1]) + (v1[1]-v3[1])*(p[2]-v3[2])) /
+            ((v3[2]-v1[2])*(v2[1]-v3[1]) + (v1[1]-v3[1])*(v2[2]-v3[2]))
+  local c = 1 - a - b
+  return a, b, c
+end
+
+-- this actually uses the basis vectors i*unit(i), etc. but it works the same
+-- in this context
+local function to_2d_basis(i, j, v)
+  return vect(vect.dot(v, i), vect.dot(v, j), 0)
+end
+
+local function to_barycentric(v1, v2, v3, p)
+  local i = v2 - v1
+  local j = vect.cross(vect.cross(i, v3 - v1), i)
+  return to_barycentric_2d(
+    to_2d_basis(i, j, v1),
+    to_2d_basis(i, j, v2),
+    to_2d_basis(i, j, v3),
+    to_2d_basis(i, j, p))
+end
+
+function mt.interpolate_normal(self, pos)
+  local verts = self.vertices
+  local a, b, c = to_barycentric(verts[1].pos, verts[2].pos, verts[3].pos, pos)
+  local d = 0
+  if b < 0 and #verts > 3 then
+    b = 0
+    c, d, a = to_barycentric(verts[3].pos, verts[4].pos, verts[1].pos, pos)
+  end
+  local interpolated =
+    a * verts[1].normal +
+    b * verts[2].normal +
+    c * verts[3].normal +
+    (d ~= 0 and d * verts[4].normal or vect(0, 0, 0))
+
+  print(string.format("%.3f %.3f %.3f %.3f", a, b, c, d))
+  if vect.sqrmag(interpolated) == 0 then
+    return self.normal
+  else
+    return vect.norm(interpolated)
+  end
+end
+
 local function make(vertices)
   assert(type(vertices == 'table') and (#vertices == 3 or #vertices == 4))
   local normal = vect.cross(
