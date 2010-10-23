@@ -10,6 +10,7 @@ bpy.ops.export_scene.obj(
     filepath=args[0],
     use_rotate_x90=False,
     use_materials=False,
-    use_normals=True)
+    use_normals=True,
+    use_triangles=True)
 
 bpy.ops.wm.quit_blender()

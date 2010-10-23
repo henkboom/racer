@@ -36,6 +36,7 @@ LUA_NATIVE_MODULES +=
 RESOURCES += \
 	sprites/ship.png \
 	sprites/terrain.png \
+	tracks/sphere.obj \
 	tracks/track.obj
 
 # export tracks

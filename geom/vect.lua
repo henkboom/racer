@@ -1,8 +1,8 @@
 require "dokidoki.module"
 [[ make,
    add, sub, neg, mul, div, dot, cross, rotate, project,
-   mag, sqrmag, norm, eq, coords,
-   zero, i, j ]]
+   mag, sqrmag, norm, eq, coords, is_small,
+   zero, i, j, k ]]
 
 function make (x, y, z)   return setmetatable({x, y, z}, mt) end
 local make = make
@@ -44,6 +44,10 @@ function rotate(v, axis, angle)
     (2*(q3*q1 - q0*q2) * v[1] +
      2*(q3*q2 + q0*q1) * v[2] +
      (q0*q0 - q1*q1 - q2*q2 + q3*q3) * v[3]))
+end
+
+function is_small(v)
+  return sqrmag(v) <= 0.00001
 end
 
 mt =

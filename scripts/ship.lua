@@ -97,8 +97,9 @@ function update()
   if ground_pos then
     -- rotate to be in line with the ground
     local axis = vect.cross(self.transform.up, ground_normal)
-    if vect.sqrmag(axis) ~= 0 then
-      self.transform.rotate(vect.norm(axis), math.pi/64)
+    if not vect.is_small(axis) then
+      local angle = math.acos(vect.dot(self.transform.up, ground_normal))
+      self.transform.rotate(vect.norm(axis), math.min(math.pi/32, angle))
     end
 
     -- track collision
@@ -110,7 +111,7 @@ function update()
   end
 
   -- gravity
-  vel = vel - GRAVITY * self.transform.up
+  vel = vel - GRAVITY * (ground_normal or self.transform.up)
 end
 
 function self.collider.on_collide(normal)
