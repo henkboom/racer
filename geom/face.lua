@@ -84,7 +84,6 @@ function mt.interpolate_normal(self, pos)
     c * verts[3].normal +
     (d ~= 0 and d * verts[4].normal or vect(0, 0, 0))
 
-  print(string.format("%.3f %.3f %.3f %.3f", a, b, c, d))
   if vect.sqrmag(interpolated) == 0 then
     return self.normal
   else

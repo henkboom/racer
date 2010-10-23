@@ -2,6 +2,9 @@ local vect = require 'geom.vect'
 
 self.tags.ship = true
 
+local SHIP_HEIGHT = 0.3
+local GRAVITY = 0.02
+
 -- controls access
 accel = 0
 turn = 0
@@ -34,8 +37,6 @@ function draw_debug()
   local ground_pos, ground_normal = game.track.trace_gravity_ray(
     self.transform.pos, -self.transform.up)
   if ground_pos then
-    --gl.glDepthFunc(gl.GL_ALWAYS)
-
     gl.glBegin(gl.GL_LINES)
     gl.glColor3d(0, 1, 0)
     gl.glVertex3d(self.transform.pos[1], self.transform.pos[2], self.transform.pos[3])
@@ -49,8 +50,6 @@ function draw_debug()
     gl.glVertex3d(ground_pos[1], ground_pos[2], ground_pos[3])
     gl.glEnd()
     gl.glColor3d(1, 1, 1)
-
-    --gl.glDepthFunc(gl.GL_LESS)
   end
 
   local function draw_vect(v)
@@ -86,20 +85,32 @@ function update()
   if brake then
     vel =
       vect.project(vel, self.transform.facing)  * 0.99 +
-      damp_vect(vect.project(vel, self.transform.left), 0.001, 0.97)
+      damp_vect(vect.project(vel, self.transform.left), 0.001, 0.97) +
+      vect.project(vel, self.transform.up)
   end
 
   self.transform.pos = self.transform.pos + vel
 
+  -- track handling
   local ground_pos, ground_normal = game.track.trace_gravity_ray(
     self.transform.pos + self.transform.up, -self.transform.up)
   if ground_pos then
+    -- rotate to be in line with the ground
     local axis = vect.cross(self.transform.up, ground_normal)
     if vect.sqrmag(axis) ~= 0 then
       self.transform.rotate(vect.norm(axis), math.pi/64)
     end
-    self.transform.pos = ground_pos + ground_normal * 0.3
+
+    -- track collision
+    local target_pos = ground_pos + ground_normal * SHIP_HEIGHT
+    if vect.dot(target_pos - self.transform.pos, ground_normal) > 0 then
+      self.transform.pos = target_pos
+      vel = vel - vect.project(vel, ground_normal)
+    end
   end
+
+  -- gravity
+  vel = vel - GRAVITY * self.transform.up
 end
 
 function self.collider.on_collide(normal)
