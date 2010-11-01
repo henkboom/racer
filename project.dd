@@ -7,7 +7,6 @@ LUA_SRC += \
 	components/blueprints.lua \
 	components/camera.lua \
 	components/collision.lua \
-	components/level.lua \
 	components/opengl.lua \
 	components/resources.lua \
 	components/track.lua \
@@ -26,10 +25,8 @@ LUA_SRC += \
 	scripts/terrain_debug_renderer.lua \
 	scripts/transform.lua \
 	init.lua \
-	level_data.lua \
 	main.lua \
-	obj.lua \
-	track_segment.lua
+	obj.lua
 
 C_SRC +=
 
@@ -37,7 +34,6 @@ LUA_NATIVE_MODULES +=
 
 RESOURCES += \
 	sprites/ship.png \
-	sprites/terrain.png \
 	tracks/sphere.obj \
 	tracks/track.obj
 
