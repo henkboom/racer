@@ -11,8 +11,10 @@ LUA_SRC += \
 	components/opengl.lua \
 	components/resources.lua \
 	components/track.lua \
+	geom/aa_box.lua \
 	geom/face.lua \
 	geom/init.lua \
+	geom/kd_tree.lua \
 	geom/mesh.lua \
 	geom/vect.lua \
 	geom/vertex.lua \

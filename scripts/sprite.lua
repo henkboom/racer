@@ -40,6 +40,7 @@ function draw()
   gl.glMultMatrixf(matrix:ptr())
 
   if color then gl.glColor4d(color[1], color[2], color[3], color[4] or 1) end
+  gl.glNormal3d(0, 0, 1)
   image:draw()
   if color then gl.glColor3d(1, 1, 1) end
 

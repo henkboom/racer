@@ -10,6 +10,7 @@ local obj = require 'obj'
 
 kernel.set_ratio(16/9)
 kernel.set_video_mode(1024, 576)
+kernel.set_max_frameskip(1)
 
 kernel.start_main_loop(game.make_game(
   {'update_setup', 'update', 'collision_check', 'update_cleanup'},

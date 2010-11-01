@@ -8,6 +8,7 @@ args = sys.argv[i+1:]
 
 bpy.ops.export_scene.obj(
     filepath=args[0],
+    use_selection=False,
     use_rotate_x90=False,
     use_materials=False,
     use_normals=True,

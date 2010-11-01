@@ -33,6 +33,7 @@ end
 
 
 function draw_debug()
+  game.track.draw_debug()
   local gl = require 'gl'
   local ground_pos, ground_normal = game.track.trace_gravity_ray(
     self.transform.pos, -self.transform.up)

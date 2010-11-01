@@ -42,6 +42,7 @@ local function parse(filename)
       local face_vertices = {}
       --local face_texture_vertices = {}
 
+      assert(#tokens == 4, 'only triangles are supported for now')
       for i = 2, #tokens do
         local fields = tokenize(tokens[i], '([^/]*)/?')
         local vertex_index = tonumber(fields[1])

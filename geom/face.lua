@@ -1,7 +1,30 @@
+local aa_box = require 'geom.aa_box'
 local vect = require 'geom.vect'
 
 local mt = {}
 mt.__index = mt
+
+function mt.get_bounds(face)
+  local min = {math.huge, math.huge, math.huge}
+  local max = {-math.huge, -math.huge, -math.huge}
+
+  for vert = 1, 3 do
+    for coord = 1, 3 do
+      if face.vertices[vert].pos[coord] < min[coord] then
+        min[coord] = face.vertices[vert].pos[coord]
+      end
+      if face.vertices[vert].pos[coord] > max[coord] then
+        max[coord] = face.vertices[vert].pos[coord]
+      end
+    end
+  end
+
+  return aa_box(vect(unpack(min)), vect(unpack(max)))
+end
+
+local function in_halfspace(v1, v2, normal, p)
+  return vect.dot(normal, vect.cross(v2 - v1, p - v1)) >= 0
+end
 
 function mt.intersect_ray(face, ray_origin, ray_direction)
   -- if the ray starts behind the face don't even bother
@@ -31,18 +54,16 @@ function mt.intersect_ray(face, ray_origin, ray_direction)
     plane_hit = ray_origin + ray_direction * t
   end
 
-  -- now see if it's inside the half-spaces defined by the edges
-  -- 0-based loop so that we can use modular arithmetic
-  for i = 0, vertex_count-1 do
-    local from = vertices[i + 1].pos
-    local to = vertices[(i+1) % vertex_count + 1].pos
-    if vect.dot(face.normal, vect.cross(to - from, plane_hit - from)) < 0 then
-      return nil
-    end
-  end
+  local inside =
+    in_halfspace(vertices[1].pos, vertices[2].pos, face.normal, plane_hit) and
+    in_halfspace(vertices[2].pos, vertices[3].pos, face.normal, plane_hit) and
+    in_halfspace(vertices[3].pos, vertices[1].pos, face.normal, plane_hit)
 
-  -- it's inside!
-  return face, plane_hit, face.normal
+  if inside then
+    return face, plane_hit, face.normal
+  else
+    return nil
+  end
 end
 
 local function to_barycentric_2d(v1, v2, v3, p)
@@ -92,7 +113,7 @@ function mt.interpolate_normal(self, pos)
 end
 
 local function make(vertices)
-  assert(type(vertices == 'table') and (#vertices == 3 or #vertices == 4))
+  assert(type(vertices == 'table') and #vertices == 3)
   local normal = vect.cross(
     vertices[2].pos - vertices[1].pos,
     vertices[3].pos - vertices[1].pos)
